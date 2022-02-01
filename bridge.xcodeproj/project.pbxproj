@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D9B4CCD327A8E759009E5E18 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9B4CCD227A8E759009E5E18 /* main.cpp */; };
+		D9D5A95427A8EA0400E5BCEB /* utun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9D5A95227A8EA0400E5BCEB /* utun.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		D9B4CCCF27A8E759009E5E18 /* bridge */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bridge; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9B4CCD227A8E759009E5E18 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D9D5A95227A8EA0400E5BCEB /* utun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utun.cpp; sourceTree = "<group>"; };
+		D9E87B6027A8EF3B0021D789 /* scoped_fd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scoped_fd.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +60,19 @@
 		D9B4CCD127A8E759009E5E18 /* bridge */ = {
 			isa = PBXGroup;
 			children = (
+				D9E87B5E27A8EF0F0021D789 /* common */,
 				D9B4CCD227A8E759009E5E18 /* main.cpp */,
+				D9D5A95227A8EA0400E5BCEB /* utun.cpp */,
 			);
 			path = bridge;
+			sourceTree = "<group>";
+		};
+		D9E87B5E27A8EF0F0021D789 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				D9E87B6027A8EF3B0021D789 /* scoped_fd.hpp */,
+			);
+			path = common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9B4CCD327A8E759009E5E18 /* main.cpp in Sources */,
+				D9D5A95427A8EA0400E5BCEB /* utun.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
