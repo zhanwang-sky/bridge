@@ -5,48 +5,51 @@
 //  Created by 冀宸 on 2022/2/1.
 //
 
+#include <cstdlib>
 #include <exception>
-#include <iomanip>
-#include <iostream>
 #include <string>
-#include "common/scoped_fd.hpp"
+#include <boost/asio.hpp>
+#include <glog/logging.h>
+#include "client.hpp"
+#include "server.hpp"
 
-#if defined(__APPLE__)
-extern int utun_open(std::string& name);
-#define opentun(ifname) utun_open(ifname)
-#else
-#error unknown platform
-#endif
+void client_start(boost::asio::io_context& io, const std::string& ip,
+                  const std::string& port, uint32_t client_id) {
+  static bridge::Client c(io, ip, port, client_id);
+  c.start();
+}
 
-using std::cout;
-using std::cerr;
-using std::endl;
-
-uint8_t buf[4096];
+void server_start(boost::asio::io_context& io, const std::string& ip,
+                  const std::string& port, uint32_t client_id) {
+  static bridge::Server s(io, ip, port, client_id);
+  s.start();
+}
 
 int main(int argc, char* argv[]) {
+  if ((argc != 4 && argc != 5) || (argc == 5 && strcmp(argv[1], "-s"))) {
+    LOG(ERROR) << "Usage: ./bridge [-s] ip port client_id";
+    exit(EXIT_FAILURE);
+  }
+
+  bool server = (argc == 5) ? true : false;
+  const char *ip = argv[argc - 3];
+  const char *port = argv[argc - 2];
+  uint32_t client_id = (uint32_t) std::atol(argv[argc - 1]);
+  if (client_id == 0 || client_id == UINT32_MAX) {
+    LOG(ERROR) << "invalid client_id";
+    exit(EXIT_FAILURE);
+  }
+
   try {
-    std::string ifname;
-    bridge::ScopedFD fd(opentun(ifname));
-
-    cout << ifname << " is opened, fd=" << fd() << endl;
-#if defined(__APPLE__)
-    cout << "hint:$ sudo ifconfig " << ifname << " inet 10.0.0.1/24 10.0.0.254 up\n";
-#endif
-
-    std::size_t sz;
-    cout << std::hex;
-    while ((sz = read(fd(), buf, sizeof(buf))) > 0) {
-      for (std::size_t i = 0; i < sz; ++i) {
-        if (i && (i % 16 == 0)) {
-          cout << endl;
-        }
-        cout << std::setw(2) << std::setfill('0') << (unsigned) buf[i] << ' ';
-      }
-      cout << endl;
+    boost::asio::io_context io;
+    if (server) {
+      server_start(io, ip, port, client_id);
+    } else {
+      client_start(io, ip, port, client_id);
     }
+    io.run();
   } catch (std::exception& e) {
-    cerr << e.what() << endl;
+    LOG(FATAL) << e.what();
   }
 
   return 0;

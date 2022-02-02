@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D9E8BECA27A91D64003D158C /* client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9E8BEC827A91D64003D158C /* client.cpp */; };
+		D9BA6AAC27ABA2FE00101B49 /* crypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9BA6AAA27ABA2FE00101B49 /* crypto.cpp */; };
 		D9B4CCD327A8E759009E5E18 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9B4CCD227A8E759009E5E18 /* main.cpp */; };
+		D936559027AB879000A50CB7 /* server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D936558E27AB879000A50CB7 /* server.cpp */; };
 		D9D5A95427A8EA0400E5BCEB /* utun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9D5A95227A8EA0400E5BCEB /* utun.cpp */; };
+		D958234D27AA3CF0006F70F5 /* libglog.0.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D958234C27AA3CF0006F70F5 /* libglog.0.5.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +29,16 @@
 
 /* Begin PBXFileReference section */
 		D9B4CCCF27A8E759009E5E18 /* bridge */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bridge; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9E8BEC827A91D64003D158C /* client.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = client.cpp; path = bridge/client.cpp; sourceTree = SOURCE_ROOT; };
+		D9E8BEC927A91D64003D158C /* client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = client.hpp; path = bridge/client.hpp; sourceTree = SOURCE_ROOT; };
+		D9BA6AAA27ABA2FE00101B49 /* crypto.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = crypto.cpp; sourceTree = "<group>"; };
+		D9BA6AAB27ABA2FE00101B49 /* crypto.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = crypto.hpp; sourceTree = "<group>"; };
 		D9B4CCD227A8E759009E5E18 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		D9D5A95227A8EA0400E5BCEB /* utun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utun.cpp; sourceTree = "<group>"; };
 		D9E87B6027A8EF3B0021D789 /* scoped_fd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scoped_fd.hpp; sourceTree = "<group>"; };
+		D936558E27AB879000A50CB7 /* server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = server.cpp; sourceTree = "<group>"; };
+		D936558F27AB879000A50CB7 /* server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = server.hpp; sourceTree = "<group>"; };
+		D9D5A95227A8EA0400E5BCEB /* utun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utun.cpp; sourceTree = "<group>"; };
+		D958234C27AA3CF0006F70F5 /* libglog.0.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglog.0.5.0.dylib; path = /usr/local/opt/glog/lib/libglog.0.5.0.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +46,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D958234D27AA3CF0006F70F5 /* libglog.0.5.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D958234B27AA3CF0006F70F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D958234C27AA3CF0006F70F5 /* libglog.0.5.0.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D9B4CCC627A8E759009E5E18 = {
 			isa = PBXGroup;
 			children = (
 				D9B4CCD127A8E759009E5E18 /* bridge */,
 				D9B4CCD027A8E759009E5E18 /* Products */,
+				D958234B27AA3CF0006F70F5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,19 +81,17 @@
 		D9B4CCD127A8E759009E5E18 /* bridge */ = {
 			isa = PBXGroup;
 			children = (
-				D9E87B5E27A8EF0F0021D789 /* common */,
+				D9E8BEC827A91D64003D158C /* client.cpp */,
+				D9E8BEC927A91D64003D158C /* client.hpp */,
+				D9BA6AAA27ABA2FE00101B49 /* crypto.cpp */,
+				D9BA6AAB27ABA2FE00101B49 /* crypto.hpp */,
 				D9B4CCD227A8E759009E5E18 /* main.cpp */,
+				D9E87B6027A8EF3B0021D789 /* scoped_fd.hpp */,
+				D936558E27AB879000A50CB7 /* server.cpp */,
+				D936558F27AB879000A50CB7 /* server.hpp */,
 				D9D5A95227A8EA0400E5BCEB /* utun.cpp */,
 			);
 			path = bridge;
-			sourceTree = "<group>";
-		};
-		D9E87B5E27A8EF0F0021D789 /* common */ = {
-			isa = PBXGroup;
-			children = (
-				D9E87B6027A8EF3B0021D789 /* scoped_fd.hpp */,
-			);
-			path = common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,7 +150,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9E8BECA27A91D64003D158C /* client.cpp in Sources */,
+				D9BA6AAC27ABA2FE00101B49 /* crypto.cpp in Sources */,
 				D9B4CCD327A8E759009E5E18 /* main.cpp in Sources */,
+				D936559027AB879000A50CB7 /* server.cpp in Sources */,
 				D9D5A95427A8EA0400E5BCEB /* utun.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,6 +276,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/opt/boost/include,
+					/usr/local/opt/gflags/include,
+					/usr/local/opt/glog/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/opt/glog/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -262,6 +293,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/opt/boost/include,
+					/usr/local/opt/gflags/include,
+					/usr/local/opt/glog/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/opt/glog/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

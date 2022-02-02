@@ -12,7 +12,7 @@
 #include <sys/kern_control.h>
 #include <sys/socket.h>
 #include <sys/sys_domain.h>
-#include "common/scoped_fd.hpp"
+#include "scoped_fd.hpp"
 
 // Open specific utun device unit and return fd.
 // If the unit number is already in use, return -1.
