@@ -53,7 +53,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "127.0.0.1"
+            argument = "-s"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "172.16.138.129"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -61,7 +65,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "2457081762"
+            argument = "2718286663"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

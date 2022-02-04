@@ -5,6 +5,9 @@
 //  Created by 冀宸 on 2022/2/1.
 //
 
+#if defined(__APPLE__)
+
+#include <cstring>
 #include <stdexcept>
 #include <string>
 #include <net/if_utun.h>
@@ -42,7 +45,7 @@ static int utun_open(std::string& name, int unit) {
   sc.sc_family = AF_SYSTEM;
   sc.ss_sysaddr = AF_SYS_CONTROL;
   sc.sc_unit = unit + 1;
-  std::memset(sc.sc_reserved, 0, sizeof(sc.sc_reserved));
+  memset(sc.sc_reserved, 0, sizeof(sc.sc_reserved));
 
   // If the connect is successful, a utunX device will be created, where X
   // is our unit number - 1.
@@ -74,3 +77,5 @@ int utun_open(std::string& name) {
   }
   throw std::runtime_error("cannot open available utun device");
 }
+
+#endif /* defined(__APPLE__) */

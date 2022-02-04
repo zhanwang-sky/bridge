@@ -33,7 +33,7 @@ class ScopedFD {
 
   virtual ~ScopedFD() { close(); }
 
-  virtual void post_close(int eno) { }
+  virtual void post_close(int/*eno*/) { }
 
   bool defined() const { return fd_ >= 0; }
 

@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
   bool server = (argc == 5) ? true : false;
   const char *ip = argv[argc - 3];
   const char *port = argv[argc - 2];
-  uint32_t client_id = (uint32_t) std::atol(argv[argc - 1]);
+  uint32_t client_id = (uint32_t) atol(argv[argc - 1]);
   if (client_id == 0 || client_id == UINT32_MAX) {
     LOG(ERROR) << "invalid client_id";
     exit(EXIT_FAILURE);
@@ -49,7 +49,8 @@ int main(int argc, char* argv[]) {
     }
     io.run();
   } catch (std::exception& e) {
-    LOG(FATAL) << e.what();
+    LOG(ERROR) << e.what();
+    exit(EXIT_FAILURE);
   }
 
   return 0;

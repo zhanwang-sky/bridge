@@ -15,6 +15,9 @@
 #if defined(__APPLE__)
 extern int utun_open(std::string& name);
 #define opentun(ifname) utun_open(ifname)
+#elif defined(__linux__)
+extern int tun_open(std::string& name);
+#define opentun(ifname) tun_open(ifname)
 #else
 #error unknown platform
 #endif
@@ -25,7 +28,7 @@ Server::Server(boost::asio::io_context& io, const std::string& ip,
                const std::string& port, uint32_t client_id)
     : io_(io),
       ifname_(),
-      fd_(io, utun_open(ifname_)),
+      fd_(io, opentun(ifname_)),
       socket_(io),
       timer_(io),
       client_id_(client_id) {
@@ -39,6 +42,9 @@ Server::Server(boost::asio::io_context& io, const std::string& ip,
   LOG(INFO) << ifname_ << " is opened, fd=" << fd_.native_handle();
 #if defined(__APPLE__)
   LOG(INFO) << "hint:$ sudo ifconfig " << ifname_ << " inet 10.0.0.254/24 10.0.0.1 mtu 1448 up";
+#elif defined(__linux__)
+  LOG(INFO) << "hint:$ sudo ip a add dev " << ifname_ << " 10.0.0.254/24";
+  LOG(INFO) << "hint:$ sudo ip l set dev " << ifname_ << " mtu 1448 up";
 #endif
 }
 
@@ -82,7 +88,7 @@ void Server::read_handler(buf_ptr pbuf, const boost::system::error_code& ec,
     if (ec == boost::system::errc::operation_canceled) {
       return;
     }
-    LOG(ERROR) << "server read error: " << ec.message() << " (" << ec << ")";
+    LOG(WARNING) << "server read error: " << ec.message() << " (" << ec << ")";
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
@@ -92,19 +98,13 @@ void Server::read_handler(buf_ptr pbuf, const boost::system::error_code& ec,
     std::size_t data_offst = crypto_header_len;
     std::size_t data_len = nbytes;
 #if defined(__APPLE__)
-    if (data_len < 24
-        || pbuf->at(data_offst + 0) != 0 || pbuf->at(data_offst + 1) != 0
+    if (pbuf->at(data_offst + 0) != 0 || pbuf->at(data_offst + 1) != 0
         || pbuf->at(data_offst + 2) != 0 || pbuf->at(data_offst + 3) != 2) {
       // Family != IP
       return;
     }
     data_offst += 4;
     data_len -= 4;
-#else
-    if (data_len < 20 || (pbuf->at(data_offst) >> 4) != 4) {
-      // not an IPv4 packet
-      return;
-    }
 #endif
 
     Encryptor encryptor(client_id_, pbuf->data(), pbuf->size());
@@ -129,7 +129,7 @@ void Server::receive_handler(buf_ptr pbuf, addr_ptr paddr,
     if (ec == boost::system::errc::operation_canceled) {
       return;
     }
-    LOG(ERROR) << "server receive error: " << ec.message() << " (" << ec << ")";
+    LOG(WARNING) << "server receive error: " << ec.message() << " (" << ec << ")";
   }
 
   start_receiving();
@@ -188,7 +188,7 @@ void Server::timeout_handler(const boost::system::error_code& ec) {
     if (ec == boost::system::errc::operation_canceled) {
       return;
     }
-    LOG(ERROR) << "server timer error: " << ec.message() << " (" << ec << ")";
+    LOG(WARNING) << "server timer error: " << ec.message() << " (" << ec << ")";
   }
 
   start_timing();
