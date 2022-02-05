@@ -56,6 +56,7 @@ Server::~Server() {
 }
 
 void Server::start() {
+  timer_.expires_after(std::chrono::seconds(0));
   start_reading();
   start_receiving();
   start_timing();
