@@ -42,6 +42,7 @@ Client::Client(boost::asio::io_context& io, const std::string& ip,
   socket_.connect(ep.endpoint());
   socket_.non_blocking(true);
 
+  LOG(INFO) << "client(" << gen_id_ << ") up";
   LOG(INFO) << ifname_ << " is opened, fd=" << fd_.native_handle();
 #if defined(__APPLE__)
   LOG(INFO) << "hint:$ sudo ifconfig " << ifname_ << " inet 10.0.0.1/24 10.0.0.254 mtu 1448 up";

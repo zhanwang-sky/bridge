@@ -154,10 +154,15 @@ void Server::receive_handler(buf_ptr pbuf, addr_ptr paddr,
           return;
         }
       } else {
-        client_addr_ = *paddr;
+        if (client_addr_ != *paddr) {
+          LOG(INFO) << "client(" << gen_id_ << ") changed from "
+            << client_addr_ << " to " << *paddr;
+          client_addr_ = *paddr;
+        }
         rx_seq_ = pkt_seq;
       }
     } else {
+      LOG(INFO) << "new client(" << gen_id << ") " << *paddr;
       client_addr_ = *paddr;
       gen_id_ = gen_id;
       rx_seq_ = pkt_seq;
@@ -195,8 +200,15 @@ void Server::timeout_handler(const boost::system::error_code& ec) {
   start_timing();
 
   if (!ec) {
+    if (active_) {
+      LOG(INFO) << "rx=" << timed_rx_cnt_ << ", tx=" << timed_tx_cnt_;
+    }
     if (!timed_rx_cnt_) {
       if (++zero_rx_times_ >= 5) {
+        if (gen_id_) {
+          LOG(INFO) << "client(" << gen_id_ << ") "
+            << client_addr_ << " timed out";
+        }
         gen_id_ = 0;
         rx_seq_ = 0;
         active_ = false;
