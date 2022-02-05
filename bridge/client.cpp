@@ -45,9 +45,11 @@ Client::Client(boost::asio::io_context& io, const std::string& ip,
   LOG(INFO) << ifname_ << " is opened, fd=" << fd_.native_handle();
 #if defined(__APPLE__)
   LOG(INFO) << "hint:$ sudo ifconfig " << ifname_ << " inet 10.0.0.1/24 10.0.0.254 mtu 1448 up";
+  LOG(INFO) << "hint:$ sudo route add <x.x.x.x/yy> 10.0.0.254";
 #elif defined(__linux__)
   LOG(INFO) << "hint:$ sudo ip a add dev " << ifname_ << " 10.0.0.1/24";
   LOG(INFO) << "hint:$ sudo ip l set dev " << ifname_ << " mtu 1448 up";
+  LOG(INFO) << "hint:$ sudo route add <x.x.x.x/yy> gw 10.0.0.254";
 #endif
 }
 

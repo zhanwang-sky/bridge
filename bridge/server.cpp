@@ -45,6 +45,7 @@ Server::Server(boost::asio::io_context& io, const std::string& ip,
 #elif defined(__linux__)
   LOG(INFO) << "hint:$ sudo ip a add dev " << ifname_ << " 10.0.0.254/24";
   LOG(INFO) << "hint:$ sudo ip l set dev " << ifname_ << " mtu 1448 up";
+  LOG(INFO) << "hint:$ sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o <NIC> -j MASQUERADE";
 #endif
 }
 
