@@ -38,6 +38,7 @@ Server::Server(boost::asio::io_context& io, const std::string& ip,
   socket_.open(ep.endpoint().protocol());
   socket_.bind(ep.endpoint());
   socket_.non_blocking(true);
+  timer_.expires_at(boost::asio::chrono::steady_clock::now());
 
   LOG(INFO) << ifname_ << " is opened, fd=" << fd_.native_handle();
 #if defined(__APPLE__)
@@ -56,7 +57,6 @@ Server::~Server() {
 }
 
 void Server::start() {
-  timer_.expires_after(std::chrono::seconds(0));
   start_reading();
   start_receiving();
   start_timing();
@@ -79,7 +79,7 @@ void Server::start_receiving() {
 }
 
 void Server::start_timing() {
-  timer_.expires_at(timer_.expiry() + std::chrono::seconds(60));
+  timer_.expires_at(timer_.expiry() + boost::asio::chrono::seconds(60));
   timer_.async_wait(std::bind(&Server::timeout_handler, this,
                               std::placeholders::_1));
 }
