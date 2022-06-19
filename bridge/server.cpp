@@ -42,11 +42,11 @@ Server::Server(boost::asio::io_context& io, const std::string& ip,
 
   LOG(INFO) << ifname_ << " is opened, fd=" << fd_.native_handle();
 #if defined(__APPLE__)
-  LOG(INFO) << "hint:$ sudo ifconfig " << ifname_ << " inet 10.0.0.254/24 10.0.0.1 mtu 1448 up";
+  LOG(INFO) << "hint:$ sudo ifconfig " << ifname_ << " inet 192.168.33.1/24 192.168.33.10 mtu 1448 up";
 #elif defined(__linux__)
-  LOG(INFO) << "hint:$ sudo ip a add dev " << ifname_ << " 10.0.0.254/24";
+  LOG(INFO) << "hint:$ sudo ip a add dev " << ifname_ << " 192.168.33.1/24";
   LOG(INFO) << "hint:$ sudo ip l set dev " << ifname_ << " mtu 1448 up";
-  LOG(INFO) << "hint:$ sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o <NIC> -j MASQUERADE";
+  LOG(INFO) << "hint:$ sudo iptables -t nat -A POSTROUTING -s 192.168.33.0/24 -o <NIC> -j MASQUERADE";
 #endif
 }
 
